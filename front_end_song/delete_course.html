@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <select id ="courseDropDown">        
+        </select>
+    
+        <input type="button", value="Delete", id="deleteBtn">
+        <div id="error"></div>
+    </form>
+    <script>
+        
+        addEventListener("DOMContentLoaded", async function() {
+            document.querySelector("#deleteBtn").addEventListener("click", deleteCourse);
+            getAllCourses();
+        });
+    
+        async function getAllCourses() {
+            const response = await fetch("http://localhost:3000/api/songs");
+            if (response.ok) {
+                const courses = await response.json();
+                let html = "";
+                for (let course of courses) {
+                    html += `<option value="${course._id}">${course.title}</option>`; 
+                }
+            document.querySelector("#courseDropDown").innerHTML = html;
+       }
+       
+    }
+
+    async function deleteCourse() {
+   // Get the song ID of the selected song
+   const songId = document.querySelector("#courseDropDown option:checked").value;
+
+   const response = await fetch("http://localhost:3000/api/songs/" + courseId, {
+      method: "DELETE"
+   });
+
+   if (response.ok) {
+        // Successfully deleted song
+        getAllCourses();
+   }
+   else {
+      document.querySelector("#error").innerHTML = "Cannot delete course.";
+   } 
+}
+    
+    </script>
+</body>
+</html>
