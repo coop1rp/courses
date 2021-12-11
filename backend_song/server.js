@@ -120,7 +120,7 @@ router.get("/courses/:id", function(req, res) {
           res.status(400).send(err);
        } 
        else {
-          res.json(song);
+          res.json(course);
        }
     });
  });
